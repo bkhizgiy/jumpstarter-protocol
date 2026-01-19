@@ -83,10 +83,15 @@ message Lease {
 
   string name = 1 [(google.api.field_behavior) = IDENTIFIER];
 
-  string selector = 2 [
-    (google.api.field_behavior) = REQUIRED,
-    (google.api.field_behavior) = IMMUTABLE
-  ];
+  oneof exporter_selection {
+    string selector = 2 [(google.api.field_behavior) = IMMUTABLE];
+   
+    string exporter_name = 12 [
+      (google.api.field_behavior) = IMMUTABLE,
+      (google.api.resource_reference) = {type: "jumpstarter.dev/Exporter"}
+    ];
+  }
+  
   optional google.protobuf.Duration duration = 3;
   google.protobuf.Duration effective_duration = 4 [(google.api.field_behavior) = OUTPUT_ONLY];
   optional google.protobuf.Timestamp begin_time = 5;
